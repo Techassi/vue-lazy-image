@@ -7,6 +7,7 @@ const manager = {
     registerObserver(options = {}) {
         this.io = new IntersectionObserver(this.callback.bind(this), options);
     },
+
     register(id, intersectedCallback) {
         this.io.observe(document.getElementById(id));
         this.callbacks.set(id, intersectedCallback);
