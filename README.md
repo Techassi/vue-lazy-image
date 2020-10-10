@@ -28,7 +28,7 @@ yarn add @techassi/vue-lazy-image
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import VueLazyImage from 'vue-lazy-image';
+import VueLazyImage from '@techassi/vue-lazy-image';
 
 createApp(App).use(VueLazyImage).mount('#app');
 ```
@@ -49,7 +49,7 @@ createApp(App).use(VueLazyImage).mount('#app');
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import VueLazyImage from 'vue-lazy-image';
+import VueLazyImage from '@techassi/vue-lazy-image';
 
 const intersectionObserverOptions = {};
 createApp(App).use(VueLazyImage, intersectionObserverOptions).mount('#app');
