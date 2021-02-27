@@ -13,8 +13,12 @@
         "url": "git+https://github.com/Techassi/vue-lazy-image.git"
     },
     "files": [
-        "/lib"
+        "lib/**/*"
     ],
+    "types": "lib/types/index.d.ts",
+    "typescript": {
+        "definition": "lib/types/index.d.ts"
+    },
     "keywords": [
         "vue",
         "vuejs",
@@ -33,13 +37,17 @@
         "vue": "^3.0.0"
     },
     "devDependencies": {
-        "eslint": "^7.10.0",
-        "eslint-config-airbnb-base": "^14.2.0",
-        "eslint-config-prettier": "^6.12.0",
-        "eslint-plugin-import": "^2.22.1",
-        "eslint-plugin-prettier": "^3.1.4",
-        "eslint-plugin-vue": "^7.0.1",
-        "prettier": "^2.1.2",
-        "rollup": "^2.28.2"
+        "@typescript-eslint/eslint-plugin": "^4.15.2",
+        "@typescript-eslint/parser": "^4.15.2",
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "@vue/eslint-config-typescript": "^7.0.0",
+        "eslint": "^7.20.0",
+        "eslint-config-prettier": "^8.1.0",
+        "eslint-plugin-vue": "^7.6.0",
+        "prettier": "^2.2.1",
+        "rollup": "^2.40.0",
+        "rollup-plugin-typescript2": "^0.30.0",
+        "tslib": "^1.14.1",
+        "typescript": "^4.2.2"
     }
 }
