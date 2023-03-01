@@ -1,72 +1,71 @@
-export type CallbackFunc = () => void;
+export type CallbackFunction = () => void;
 
 export interface CallbackTree {
-    [key: string]: CallbackFunc;
+  [key: string]: CallbackFunction;
 }
 
 export class Manager {
-    private observer!: IntersectionObserver | null;
-    private queue!: Array<CallbackFunc>;
-    private callbacks!: CallbackTree;
-    private uid = 0;
+  private observer!: IntersectionObserver;
+  private queue!: Array<CallbackFunction>;
+  private callbacks!: CallbackTree;
+  private uid = 0;
 
-    public constructor() {
-        this.queue = new Array<CallbackFunc>();
+  public constructor() {
+    this.queue = new Array<CallbackFunction>();
+  }
+
+  public registerObserver(options?: IntersectionObserverInit): void {
+    this.observer = new IntersectionObserver(
+      this.__internalCallback,
+      options,
+    );
+  }
+
+  public register(id: string, callback: CallbackFunction): string {
+    if (id === '') {
+      id = `vue-lazy-image-${this.uid}`;
+      this.uid++;
     }
 
-    public registerObserver(options?: IntersectionObserverInit): void {
-        this.observer = new IntersectionObserver(
-            this.__internalCallback,
-            options
-        );
+    const target = document.querySelector(`#${id}`);
+    if (!target)
+      return 'INVALID';
+
+    if (this.observer !== undefined) {
+      this.observer.observe(target);
+      this.callbacks[id] = callback;
+      return id;
     }
 
-    public register(id: string, callback: CallbackFunc): string {
-        if (id == '') {
-            id = `vue-lazy-image-${this.uid}`;
-            this.uid++;
-        }
+    this.queue.push(callback);
+    return id;
+  }
 
-        const target = document.getElementById(id);
-        if (target == null) {
-            return 'INVALID';
-        }
+  public runQueue(): void {
+    for (const callback of this.queue)
+      callback();
 
-        if (this.observer != null) {
-            this.observer.observe(target);
-            this.callbacks[id] = callback;
-            return id;
-        }
+    this.queue = [];
+  }
 
-        this.queue.push(callback);
-        return id;
+  private __internalCallback(entries: IntersectionObserverEntry[]): void {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) return;
+
+      const id = entry.target.id;
+
+      const target = document.querySelector(`#${id}`);
+      if (!target)
+        return;
+
+      this.observer?.unobserve(target);
+      this.callbacks[id]();
     }
-
-    public runQueue(): void {
-        this.queue.forEach((callback) => {
-            callback();
-        });
-        this.queue = [];
-    }
-
-    private __internalCallback(entries: IntersectionObserverEntry[]): void {
-        entries.forEach((entry: IntersectionObserverEntry) => {
-            if (!entry.isIntersecting) return;
-
-            const id = entry.target.id;
-            const target = document.getElementById(id);
-            if (target == null) {
-                return;
-            }
-
-            this.observer?.unobserve(target);
-            this.callbacks[id]();
-        });
-    }
+  }
 }
 
 export function createManager(): Manager {
-    return new Manager();
+  return new Manager();
 }
 
 const manager = createManager();

@@ -1,0 +1,17 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "@techassi"
+  ],
+  "rules": {
+    "@typescript-eslint/naming-convention": "off",
+    "import/named": "off"
+  },
+  "ignorePatterns": [
+    "**/dist"
+  ]
+}
